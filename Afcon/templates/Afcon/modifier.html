@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Afcon - Modifier les Points</title>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Afcon/style.css' %}" />
+</head>
+<body>
+    <h1 class="h1 p-5">Changement des Points</h1>
+    <ul class="list mb-5">
+        <li class="px-5"><a href="{% url 'Afcon:ViewAccueil' %}" class="h4 link-primary">Page d'accueil</a></li>
+        <li class="px-5"><a href="{% url 'Afcon:ViewGroupe' %}" class="h4 link-primary">List des Groupes</a></li>
+    </ul>
+    <div class="container">
+        <div class="row">
+            <form action="{% url 'Afcon:editPoints' equipe.id %}" method="POST">
+                {% csrf_token %}
+                Nom : {{ equipe.name }}
+                <hr/>
+                Classement Africain Fifa : {{ equipe.classement }}
+                <hr/>
+                Nombre des Points : <input type="number" class="form-control mw-25 w-25 d-inline-block" name="points" value="{{ equipe.points }}" />
+                <hr/>
+                Groupe : {{ equipe.groupe_id }}
+                <hr/>
+                <input type="submit" class="btn btn-primary px-5 py-2" value="Enregistrer" />
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Afcon - List des Matches</title>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Afcon/style.css' %}" />
+</head>
+<body>
+    <h1 class="h1 p-5">List des Matches</h1>
+    <ul class="list mb-5">
+        <li class="px-5"><a href="{% url 'Afcon:ViewAccueil' %}" class="h4 link-primary">Page d'accueil</a></li>
+        <li class="px-5"><a href="{% url 'Afcon:ViewGroupe' %}" class="h4 link-primary">List des Groupes</a></li>
+        <li class="px-5"><a href="{% url 'Afcon:ViewHuitiemeFinal' %}" class="h4 link-primary">Huitièmes de finale</a></li>
+    </ul>
+    <div class="container">
+        <div class="row">
+            {% for matche in matches %}
+                <div class="col-12 mb-4 text-center">
+                    <label for="scoreIntEquipe" class="w-25">{{ matche.name_int_equipe }}</label>
+                    <input type="number" id="scoreIntEquipe" class="form-control px-1 py-2 w-10 d-inline-block text-center" name="score_int_equipe" value="{{ matche.score_int_equipe }}" readonly />
+                    <span class="d-inline-block mx-2">VS</span>
+                    <input type="number" id="scoreIntEquipe" class="form-control px-1 py-2 w-10 d-inline-block text-center" name="score_ext_equipe" value="{{ matche.score_ext_equipe }}" readonly />
+                    <label for="scoreIntEquipe" class="w-25">{{ matche.name_ext_equipe }}</label>
+                </div>
+            {% endfor %}
+            <div class="col-12 text-center">
+                <form action="{% url 'Afcon:saveMatche' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="groupeId" value="{{ groupe_id }}" readonly />
+                    <select name="intEquipe" class="form-select px-1 py-2 w-25 d-inline-block">
+                        {% for equipe in equipes %}
+                        <option value="{{ equipe.id }}">{{ equipe.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="number" name="scoreIntEquipe" class="form-control px-1 py-2 w-10 d-inline-block text-center" value="0" min="0" max="99" />
+                    <span class="d-inline-block mx-2">VS</span>
+                    <input type="number" name="scoreExtEquipe" class="form-control px-1 py-2 w-10 d-inline-block text-center" value="0" min="0" max="99" />
+                    <select name="extEquipe" class="form-select px-1 py-2 w-25 d-inline-block">
+                        {% for equipe in equipes %}
+                        <option value="{{ equipe.id }}">{{ equipe.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <br/>
+                    <input type="submit" class="btn btn-primary mt-3 px-5 py-2" value="Enregistrer" />
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
